@@ -141,8 +141,9 @@ void DistributeUnlock(const std::string& path, DistributeMutex* mutex) {
 
 	ZKErrorCode errcode;
 	while ((errcode = zkclient.Delete(path)) == kZKError);
-
+    
 	assert(errcode == kZKSucceed);
+    mutex->locked = false;
 	pthread_mutex_unlock(&mutex->local_mutex);
 }
 
