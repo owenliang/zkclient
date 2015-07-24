@@ -142,7 +142,8 @@ leader_follower_zkclient.o:zkclient.cc \
 	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40mleader_follower_zkclient.o[0m']"
 	$(CXX) -c $(INCPATH) $(DEP_INCPATH) $(CPPFLAGS) $(CXXFLAGS)  -o leader_follower_zkclient.o zkclient.cc
 
-distribute_lock_distribute_lock.o:distribute_lock.cc
+distribute_lock_distribute_lock.o:distribute_lock.cc \
+  zkclient.h
 	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40mdistribute_lock_distribute_lock.o[0m']"
 	$(CXX) -c $(INCPATH) $(DEP_INCPATH) $(CPPFLAGS) $(CXXFLAGS)  -o distribute_lock_distribute_lock.o distribute_lock.cc
 

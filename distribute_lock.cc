@@ -143,7 +143,7 @@ void DistributeUnlock(const std::string& path, DistributeMutex* mutex) {
 	while ((errcode = zkclient.Delete(path)) == kZKError);
     
 	assert(errcode == kZKSucceed);
-    mutex->locked = false;
+	mutex->locked = false;
 	pthread_mutex_unlock(&mutex->local_mutex);
 }
 
@@ -156,12 +156,14 @@ int main(int argc, char** argv) {
 
 	DistributeMutex mutex;
 	DistributeMutexInit(&mutex);
-
-	DistributeLock("/lock", &mutex);
-	printf("After Lock\n");
-	sleep(5);
-	DistributeUnlock("/lock", &mutex);
-	printf("After UnLock\n");
+    
+    while (true) {
+		DistributeLock("/lock", &mutex);
+		printf("After Lock\n");
+		sleep(2);
+		DistributeUnlock("/lock", &mutex);
+		printf("After UnLock\n\n");
+    }
 
 	DistributeMutexDestroy(&mutex);
 
