@@ -46,6 +46,7 @@ CONFIGS('third-64/zookeeper@base')
 #可执行文件
 Application('test',Sources('test.cc zkclient.cc'))
 Application('leader_follower',Sources('leader_follower.cc zkclient.cc'))
+Application('distribute_lock',Sources('distribute_lock.cc zkclient.cc'))
 #静态库
 #StaticLibrary('zk',Sources(user_sources),HeaderFiles(user_headers))
 #共享库
