@@ -35,11 +35,11 @@ CCP_FLAGS=
 
 
 #COMAKE UUID
-COMAKE_MD5=67ef2ce47657b1cbf4446256d5b01d53  COMAKE
+COMAKE_MD5=9e0d243d91d01ae64781b2695859b06e  COMAKE
 
 
 .PHONY:all
-all:comake2_makefile_check test leader_follower distribute_lock 
+all:comake2_makefile_check test leader_follower 
 	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40mall[0m']"
 	@echo "make all done"
 
@@ -63,14 +63,10 @@ clean:ccpclean
 	rm -rf ./output/bin/test
 	rm -rf leader_follower
 	rm -rf ./output/bin/leader_follower
-	rm -rf distribute_lock
-	rm -rf ./output/bin/distribute_lock
 	rm -rf test_test.o
 	rm -rf test_zkclient.o
 	rm -rf leader_follower_leader_follower.o
 	rm -rf leader_follower_zkclient.o
-	rm -rf distribute_lock_distribute_lock.o
-	rm -rf distribute_lock_zkclient.o
 
 .PHONY:dist
 dist:
@@ -111,17 +107,6 @@ leader_follower:leader_follower_leader_follower.o \
 	mkdir -p ./output/bin
 	cp -f --link leader_follower ./output/bin
 
-distribute_lock:distribute_lock_distribute_lock.o \
-  distribute_lock_zkclient.o
-	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40mdistribute_lock[0m']"
-	$(CXX) distribute_lock_distribute_lock.o \
-  distribute_lock_zkclient.o -Xlinker "-("  ../third-64/zookeeper/lib/libzookeeper_mt.a \
-  ../third-64/zookeeper/lib/libzookeeper_st.a -lpthread \
-  -lcrypto \
-  -lrt -Xlinker "-)" -o distribute_lock
-	mkdir -p ./output/bin
-	cp -f --link distribute_lock ./output/bin
-
 test_test.o:test.cc \
   zkclient.h
 	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40mtest_test.o[0m']"
@@ -141,16 +126,6 @@ leader_follower_zkclient.o:zkclient.cc \
   zkclient.h
 	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40mleader_follower_zkclient.o[0m']"
 	$(CXX) -c $(INCPATH) $(DEP_INCPATH) $(CPPFLAGS) $(CXXFLAGS)  -o leader_follower_zkclient.o zkclient.cc
-
-distribute_lock_distribute_lock.o:distribute_lock.cc \
-  zkclient.h
-	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40mdistribute_lock_distribute_lock.o[0m']"
-	$(CXX) -c $(INCPATH) $(DEP_INCPATH) $(CPPFLAGS) $(CXXFLAGS)  -o distribute_lock_distribute_lock.o distribute_lock.cc
-
-distribute_lock_zkclient.o:zkclient.cc \
-  zkclient.h
-	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40mdistribute_lock_zkclient.o[0m']"
-	$(CXX) -c $(INCPATH) $(DEP_INCPATH) $(CPPFLAGS) $(CXXFLAGS)  -o distribute_lock_zkclient.o zkclient.cc
 
 endif #ifeq ($(shell uname -m),x86_64)
 
